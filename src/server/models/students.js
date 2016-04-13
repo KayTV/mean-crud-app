@@ -9,7 +9,7 @@ var StudentSchema = new Schema({
   lastName: {
     type: String,
     required: true
-  }
+  },
   year: {
     type: Number,
     required: true
