@@ -49,15 +49,20 @@ describe('student routes', function() {
     it('should add a student', function(done){
       chai.request(server)
       .post('/students')
+      .send({
+        firstName: 'Kay',
+        lastName: 'VN',
+        year: 2007
+      })
       .end(function(err, res){
         res.status.should.equal(200);
         res.type.should.equal('application/json');
         res.body.should.be.a('object');
         res.body.data.should.be.a('array');
         res.body.data.length.should.equal(2);
-        res.body.data.should.have.property('firstName');
-        res.body.data.should.have.property('lastName');
-        res.body.data.should.have.property('year');
+        res.body.data.firstName.should.equal('Kay');
+        res.body.data.lastName.should.equal('VN');
+        res.body.data.year.should.equal(2007);
         done();
       })
     })
@@ -85,6 +90,22 @@ describe('student routes', function() {
         })
     });
 });
+describe('Put', function() {
+
+    it('should update a SINGLE student', function(done) {
+    chai.request(server)
+    .get('/students')
+    .end(function(err, response){
+      chai.request(server)
+        .put('/students/update/')
+        .send({lastName: 'Njeru'})
+        .end(function(error, res){
+          res.body.data.lastName.should.equal('Njeru');
+          done();
+        });
+      });
+    });
+  });
   describe('DELETE from students', function() {
       it('should return all students', function(done) {
           chai.request(server)

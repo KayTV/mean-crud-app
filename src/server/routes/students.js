@@ -38,6 +38,16 @@ Students.find({_id: req.params.id}, function(err, student) {
   })
 })
 
+//UPDATE a single post
+router.put('/update/', function(req, res, next) {
+  Students.findOneAndUpdate({firstName: 'Kevin'}, req.body, {new:true}, function(err, students){
+    if (err) { return next(err) };
+    res.status(200).json({ status : 'success',
+                           data   : students });
+  });
+
+});
+
 //DELETE a single student
 router.delete('/', function(req, res, next) {
     Students.remove({ firstName: 'James' }, function(err) {
