@@ -5,7 +5,8 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var mongoose = require('mongoose')
+var mongoose = require('mongoose');
+var config = require('../_config');
 
 
 // *** routes *** //
@@ -16,13 +17,15 @@ var routes = require('./routes/index.js');
 var app = express();
 
 // *** mongo connection *** //
-var mongoURI = config.mongoURI[app.settings.env];
+var enviroment = process.env.NODE_ENV || 'development';
+var mongoURI = config.mongoURI[enviroment];
+console.log(enviroment);
 
 mongoose.connect(mongoURI, function(err, res) {
   if (err) {
     console.log('Error connecting to the database. ' + err);
   } else {
-    console.log('Connected to Database: ' + config.mongoURI[app.settings.env]);
+    console.log('Connected to Database: ' + config.mongoURI[enviroment]);
   }
 });
 
